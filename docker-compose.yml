@@ -1,0 +1,43 @@
+version: "3.8"
+
+networks:
+  boilerplate-network:
+
+services:
+  app:
+    image: boilerplate-app
+    container_name: boilerplate-app
+    build: 
+      context: ./
+      dockerfile: docker/app.Dockerfile
+      args:
+        HOST_UID: ${HOST_UID:-1000}
+        HOST_GID: ${HOST_GID:-1000}
+    volumes:
+      - ./:/app:rw
+    depends_on:
+      - postgres
+    ports:
+      - "7100:7100"
+    networks:
+      - boilerplate-network
+
+  postgres:
+    image: boilerplate-postgres
+    container_name: boilerplate-postgres
+    build:
+      context: ./
+      dockerfile: docker/postgres.Dockerfile
+      args:
+        HOST_UID: ${HOST_UID:-70}
+        HOST_GID: ${HOST_GID:-70}
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: boilerplate_db
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - ./docker/var/postgres:/var/lib/postgresql/data/pgdata:rw
+    networks:
+      - boilerplate-network
+    restart: always

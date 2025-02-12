@@ -1,0 +1,25 @@
+version: "3.8"
+
+networks:
+  boilerplate-network:
+
+services:
+  postgres:
+    build:
+      context: ./docker
+      dockerfile: postgres.Dockerfile
+      args:
+        HOST_UID: ${HOST_UID:-70}
+        HOST_GID: ${HOST_GID:-70}
+    image: boilerplate-postgres
+    container_name: boilerplate-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: boilerplate_db
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - ./docker/var/postgres:/var/lib/postgresql/data/pgdata:rw
+    networks:
+      - boilerplate-network
+    restart: always
