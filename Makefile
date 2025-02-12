@@ -40,7 +40,7 @@ endif
 	docker network rm -f boilerplate-network
 
 logs: ## Logs
-	docker logs --follow boilerplate-app
+	docker-compose logs --follow
 #	docker logs --follow $(CONTAINERS)
 
 # Docker shell

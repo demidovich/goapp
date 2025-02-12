@@ -1,0 +1,19 @@
+# Env: development, production
+app:
+  Mode: development
+
+server:
+  Listen: :7100
+  MaxBodySize: 2M
+  GzipLevel: 5
+  ReadTimeout: 10
+  WriteTimeout: 10
+
+postgres:
+  Host: localhost
+  Port: 5432
+  User: postgres
+  Password: postgres
+  Dbname: boilerplate_db
+  Sslmode: false
+  Driver: pgx
