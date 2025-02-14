@@ -39,9 +39,11 @@ ifdef IMAGES
 endif
 	docker network rm -f boilerplate-network
 
+test: ## Test
+	docker exec boilerplate-app go test -v ./...
+
 logs: ## Logs
 	docker-compose logs --follow
-#	docker logs --follow $(CONTAINERS)
 
 # Docker shell
 # ============================================================================
