@@ -1,4 +1,4 @@
-FROM golang:1.23.6-alpine
+FROM golang:1.24.3-alpine
 
 ARG HOST_UID=1000
 ARG HOST_GID=1000
