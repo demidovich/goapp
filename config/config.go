@@ -2,7 +2,7 @@ package config
 
 import (
 	"fmt"
-	"goapp-boilerplate/pkg/logger"
+	"goapp/pkg/logger"
 	"time"
 
 	"github.com/spf13/viper"

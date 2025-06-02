@@ -1,6 +1,6 @@
-module goapp-boilerplate
+module goapp
 
-go 1.23.4
+go 1.24.3
 
 require (
 	github.com/demidovich/failure v0.0.0-20250312091202-ab5dad332632
@@ -36,4 +36,4 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-replace github.com/demidovich/failure => /mnt/data/code/go/failure
+// replace github.com/demidovich/failure => /mnt/data/code/go/failure

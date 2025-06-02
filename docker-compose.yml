@@ -1,12 +1,13 @@
 version: "3.8"
 
 networks:
-  boilerplate-network:
+  goapp-network:
 
 services:
+
   app:
-    image: boilerplate-app
-    container_name: boilerplate-app
+    image: goapp-app
+    container_name: goapp-app
     build: 
       context: ./
       dockerfile: docker/app.Dockerfile
@@ -20,11 +21,11 @@ services:
     ports:
       - "7100:7100"
     networks:
-      - boilerplate-network
+      - goapp-network
 
   postgres:
-    image: boilerplate-postgres
-    container_name: boilerplate-postgres
+    image: goapp-postgres
+    container_name: goapp-postgres
     build:
       context: ./
       dockerfile: docker/postgres.Dockerfile
@@ -34,10 +35,10 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: boilerplate_db
+      POSTGRES_DB: goapp_db
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - ./docker/var/postgres:/var/lib/postgresql/data/pgdata:rw
     networks:
-      - boilerplate-network
+      - goapp-network
     restart: always

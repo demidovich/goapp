@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"goapp-boilerplate/config"
-	"goapp-boilerplate/pkg/logger"
+	"goapp/config"
+	"goapp/pkg/logger"
 	"net/http"
 
 	"github.com/demidovich/failure"
@@ -48,7 +48,7 @@ func logOrFail(cfg logger.Config) *logger.Log {
 }
 
 func homeHandler(w http.ResponseWriter, req *http.Request) {
-	fmt.Fprintf(w, "<h1 style='margin: 50px'>goapp boilerplate</h1>")
+	fmt.Fprintf(w, "<h1 style='margin: 50px'>goapp</h1>")
 }
 
 func exampleErrorHandler(w http.ResponseWriter, req *http.Request) {

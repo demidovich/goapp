@@ -2,7 +2,7 @@ package logger
 
 import (
 	"fmt"
-	"goapp-boilerplate/pkg/errors"
+	"goapp/pkg/errors"
 	"strings"
 
 	"go.uber.org/zap"

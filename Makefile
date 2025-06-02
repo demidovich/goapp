@@ -12,8 +12,8 @@ help: ## This help
 export HOST_UID ?= $(shell id -u)
 export HOST_GID ?= $(shell id -g)
 
-IMAGES := $(shell docker images -q "boilerplate-*")
-CONTAINERS := $(shell docker ps -aq --filter name=boilerplate-)
+IMAGES := $(shell docker images -q "goapp-*")
+CONTAINERS := $(shell docker ps -aq --filter name=goapp-)
 
 up: ## Up docker application
 	mkdir -p docker/var/postgres
@@ -37,10 +37,10 @@ clean-all: clean ## Remove containers, images and networks
 ifdef IMAGES
 	docker rmi -f $(IMAGES)
 endif
-	docker network rm -f boilerplate-network
+	docker network rm -f goapp-network
 
 test: ## Test
-	docker exec boilerplate-app go test -v ./...
+	docker exec goapp-app go test -v ./...
 
 logs: ## Logs
 	docker-compose logs --follow
@@ -49,14 +49,14 @@ logs: ## Logs
 # ============================================================================
 
 shell-app: ## Shell of postgresql container
-	docker exec --interactive --tty boilerplate-app /bin/bash
+	docker exec --interactive --tty goapp-app /bin/bash
 
 shell-postgres: ## Shell of postgresql container
-	docker exec --interactive --tty boilerplate-postgres /bin/bash
+	docker exec --interactive --tty goapp-postgres /bin/bash
 
 # Modules
 # ============================================================================
 
 vendor: ## Go mod vendor
-	docker exec boilerplate-app go mod tidy
-	docker exec boilerplate-app go mod vendor
+	docker exec goapp-app go mod tidy
+	docker exec goapp-app go mod vendor
