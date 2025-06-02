@@ -9,6 +9,13 @@ server:
   ReadTimeout: 10
   WriteTimeout: 10
 
+logger:
+  Encoding: console
+  Level: debug
+  DevMode: false
+  WithCaller: true
+  WithStacktrace: true
+
 postgres:
   Host: localhost
   Port: 5432

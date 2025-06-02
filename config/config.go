@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"goapp-boilerplate/pkg/logger"
 	"time"
 
 	"github.com/spf13/viper"
@@ -10,6 +11,7 @@ import (
 type Config struct {
 	App    AppConfig
 	Server ServerConfig
+	Logger logger.Config
 }
 
 type AppConfig struct {

@@ -7,28 +7,26 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestStacktrace(t *testing.T) {
+func TestStacktraceCaller(t *testing.T) {
 	err := methodC()
-	stack := err.Stacktrace().ToJson()
+	caller := err.Stacktrace().Caller()
 
 	// Выделение из goapp-boilerplate/pkg/errors.methodA названия метода methodA
 	shortFunctionName := func(name string) string {
 		return strings.Split(name, ".")[1]
 	}
 
-	assert.Equal(t, "methodA", shortFunctionName(stack[0].Function))
-	assert.Equal(t, "methodB", shortFunctionName(stack[1].Function))
-	assert.Equal(t, "methodC", shortFunctionName(stack[2].Function))
+	assert.Equal(t, "methodA", shortFunctionName(caller.Function))
 }
 
-func methodC() *Error {
+func methodC() Error {
 	return methodB()
 }
 
-func methodB() *Error {
+func methodB() Error {
 	return methodA()
 }
 
-func methodA() *Error {
+func methodA() Error {
 	return New("methodA error")
 }

@@ -1,14 +1,11 @@
 package errors
 
 import (
-	"fmt"
 	"runtime"
-	"strings"
 )
 
 const (
-	traceDepth = 128
-	skipFrames = 3
+	maxStackDepth = 50
 )
 
 type stacktrace struct {
@@ -22,37 +19,28 @@ type Stackframe struct {
 	Function string `json:"function"`
 }
 
-func newStacktrace() *stacktrace {
-	var trace = make([]uintptr, traceDepth)
+func newStacktrace(skipFrames int) stacktrace {
+	var trace = make([]uintptr, maxStackDepth)
 
 	depth := runtime.Callers(skipFrames, trace[:])
 	trace = trace[:depth]
 
-	return &stacktrace{
-		frames: runtime.CallersFrames(trace),
+	return stacktrace{
 		depth:  depth,
+		frames: runtime.CallersFrames(trace),
 	}
 }
 
-func (s *stacktrace) ToString() string {
-	result := strings.Builder{}
-
-	for {
-		frame, more := s.frames.Next()
-		line := fmt.Sprintf("%s\n\t%s (%d)", frame.Function, frame.File, frame.Line)
-		result.WriteString(line)
-
-		if !more {
-			break
-		}
-
-		result.WriteString("\n")
+func (s stacktrace) Caller() Stackframe {
+	frame, _ := s.frames.Next()
+	return Stackframe{
+		File:     frame.File,
+		Line:     frame.Line,
+		Function: frame.Function,
 	}
-
-	return result.String()
 }
 
-func (s *stacktrace) ToJson() []Stackframe {
+func (s stacktrace) Frames() []Stackframe {
 	result := make([]Stackframe, s.depth)
 
 	i := 0
