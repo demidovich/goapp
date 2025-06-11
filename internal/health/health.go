@@ -1,4 +1,4 @@
-package healthcheck
+package health
 
 func Handle() error {
 	return nil

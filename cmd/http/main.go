@@ -1,57 +1,32 @@
 package main
 
 import (
-	"fmt"
 	"goapp/config"
+	"goapp/internal/server"
 	"goapp/pkg/logger"
-	"net/http"
+	"os"
 
 	"github.com/demidovich/failure"
 )
 
 func main() {
-	fmt.Println("Starting http server")
+	cfg := newConfig("./config/config.yml")
+	log := logger.New(os.Stdout, cfg.Logger)
 
-	cfg := configOrFail("./config/config.yml")
-	log := logOrFail(cfg.Logger)
+	log.Info("Init configuration ./config/config.yml")
 
 	failure.SetStackMode(failure.StackModeRoot)
 	failure.SetStackRootDir("../../")
-	failure.SetStackPrefix(" --- ")
 
-	log.Infof("Listen %s\n", cfg.Server.Listen)
-	http.HandleFunc("/", homeHandler)
-	http.HandleFunc("/example-error", exampleErrorHandler)
-	http.ListenAndServe(cfg.Server.Listen, nil)
+	srv := server.New(cfg.Server, log)
+	srv.Run()
 }
 
-func configOrFail(file string) config.Config {
-	fmt.Printf("Init configuration from %s\n", file)
-
+func newConfig(file string) config.Config {
 	instance, err := config.New(file)
 	if err != nil {
 		panic(err)
 	}
 
 	return *instance
-}
-
-func logOrFail(cfg logger.Config) *logger.Log {
-	fmt.Println("Init logger")
-
-	instance, err := logger.New(cfg)
-	if err != nil {
-		panic(err)
-	}
-
-	return instance
-}
-
-func homeHandler(w http.ResponseWriter, req *http.Request) {
-	fmt.Fprintf(w, "<h1 style='margin: 50px'>goapp</h1>")
-}
-
-func exampleErrorHandler(w http.ResponseWriter, req *http.Request) {
-	err := failure.New("example error")
-	fmt.Fprintf(w, "%+v", err)
 }

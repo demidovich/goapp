@@ -2,28 +2,20 @@ package config
 
 import (
 	"fmt"
+	"goapp/internal/server"
 	"goapp/pkg/logger"
-	"time"
 
 	"github.com/spf13/viper"
 )
 
 type Config struct {
 	App    AppConfig
-	Server ServerConfig
+	Server server.Config
 	Logger logger.Config
 }
 
 type AppConfig struct {
 	Mode string
-}
-
-type ServerConfig struct {
-	Listen       string
-	MaxBodySize  string
-	GzipLevel    int
-	ReadTimeout  time.Duration
-	WriteTimeout time.Duration
 }
 
 func New(filename string) (*Config, error) {

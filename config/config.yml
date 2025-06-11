@@ -9,12 +9,13 @@ server:
   ReadTimeout: 10
   WriteTimeout: 10
 
+# Encoding:
+# - json: ECS
+# - text: ECS key-value pairs
+# - pretty: readable for local development
 logger:
-  Encoding: console
+  Encoding: pretty
   Level: debug
-  DevMode: false
-  WithCaller: true
-  WithStacktrace: true
 
 postgres:
   Host: localhost

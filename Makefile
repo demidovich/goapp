@@ -60,3 +60,11 @@ shell-postgres: ## Shell of postgresql container
 vendor: ## Go mod vendor
 	docker exec goapp-app go mod tidy
 	docker exec goapp-app go mod vendor
+
+tools: ## Install develop tools
+	docker exec goapp-app go install github.com/boumenot/gocover-cobertura@latest
+	docker exec goapp-app go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+	docker exec goapp-app go install github.com/jondot/goweight@latest
+	docker exec goapp-app go install github.com/psampaz/go-mod-outdated@latest
+	docker exec goapp-app go install github.com/rakyll/gotest@latest
+	docker exec goapp-app go install github.com/sonatype-nexus-community/nancy@latest
