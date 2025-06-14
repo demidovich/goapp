@@ -2,7 +2,7 @@ package main
 
 import (
 	"goapp/config"
-	"goapp/internal/server"
+	"goapp/internal/app/server"
 	"goapp/pkg/logger"
 	"os"
 
@@ -16,10 +16,13 @@ func main() {
 	log.Info("Init configuration ./config/config.yml")
 
 	failure.SetStackMode(failure.StackModeRoot)
-	failure.SetStackRootDir("../../")
+	failure.SetStackRootDir("./")
 
 	srv := server.New(cfg.Server, log)
-	srv.Run()
+	err := srv.Run()
+	if err != nil {
+		log.Error(err.Error())
+	}
 }
 
 func newConfig(file string) config.Config {

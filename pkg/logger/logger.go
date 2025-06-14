@@ -1,6 +1,7 @@
 package logger
 
 import (
+	"fmt"
 	"io"
 	"log/slog"
 )
@@ -29,16 +30,32 @@ func (l *Logger) Debug(msg string, args ...any) {
 	l.slog.Debug(msg, args...)
 }
 
+func (l *Logger) Debugf(format string, args ...any) {
+	l.slog.Debug(fmt.Sprintf(format, args...))
+}
+
 func (l *Logger) Info(msg string, args ...any) {
 	l.slog.Info(msg, args...)
+}
+
+func (l *Logger) Infof(format string, args ...any) {
+	l.slog.Info(fmt.Sprintf(format, args...))
 }
 
 func (l *Logger) Warn(msg string, args ...any) {
 	l.slog.Warn(msg, args...)
 }
 
+func (l *Logger) Warnf(format string, args ...any) {
+	l.slog.Warn(fmt.Sprintf(format, args...))
+}
+
 func (l *Logger) Error(msg string, args ...any) {
 	l.slog.Error(msg, args...)
+}
+
+func (l *Logger) Errorf(format string, args ...any) {
+	l.slog.Error(fmt.Sprintf(format, args...))
 }
 
 func (l *Logger) With(args ...any) *Logger {
@@ -55,7 +72,7 @@ func (l *Logger) WithGroup(name string, args ...any) *Logger {
 
 func (l *Logger) WithError(err error) *Logger {
 	args := []any{
-		"cause",
+		"message",
 		err.Error(),
 	}
 

@@ -3,7 +3,7 @@ module goapp
 go 1.24.3
 
 require (
-	github.com/demidovich/failure v0.0.0-20250312091202-ab5dad332632
+	github.com/demidovich/failure v0.0.0-20250607201439-7b3166283897
 	github.com/go-chi/chi/v5 v5.2.1
 	github.com/go-chi/httplog/v3 v3.0.0
 	github.com/labstack/echo/v4 v4.13.4
@@ -13,6 +13,7 @@ require (
 
 require (
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
+	github.com/go-chi/cors v1.2.1 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/labstack/gommon v0.4.2 // indirect
 	github.com/magiconair/properties v1.8.7 // indirect

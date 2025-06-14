@@ -8,6 +8,8 @@ server:
   GzipLevel: 5
   ReadTimeout: 10
   WriteTimeout: 10
+  ResponsePrettyEnabled: true
+  ResponseStackEnabled: true
 
 # Encoding:
 # - json: ECS

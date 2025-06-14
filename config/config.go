@@ -2,7 +2,7 @@ package config
 
 import (
 	"fmt"
-	"goapp/internal/server"
+	"goapp/internal/app/server"
 	"goapp/pkg/logger"
 
 	"github.com/spf13/viper"
