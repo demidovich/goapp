@@ -3,12 +3,30 @@ package server
 import (
 	"log/slog"
 	"net/http"
+	"time"
 
+	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/httplog/v3"
 )
 
-// var loggerSchemaECS = httplog.Schema{
+func (s *Server) initRoutes() {
+	s.logger.Info("REST server routes init")
+
+	s.router.Group(func(r chi.Router) {
+		r.Use(middleware.Recoverer)
+		r.Use(middleware.RequestID)
+		r.Use(middleware.RealIP)
+		r.Use(httpLogMiddleware(s.logger.Slog()))
+		r.Use(httpLogRequestIDMiddleware())
+		r.Use(middleware.Timeout(s.config.Rest.ReadTimeout * time.Second))
+
+		// router.Get("/")
+		r.Get("/health", s.health.Handle)
+	})
+}
+
+// var httpLogSchemaECS = httplog.Schema{
 // 	Timestamp:          "@timestamp",
 // 	Level:              "log.level",
 // 	Message:            "message",
@@ -34,7 +52,7 @@ import (
 // 	ResponseDuration:   "event.duration",
 // }
 
-var loggerSchemaECS = httplog.Schema{
+var httpLogSchemaECS = httplog.Schema{
 	Timestamp:        "@timestamp",
 	Level:            "log.level",
 	Message:          "message",
@@ -51,11 +69,9 @@ var loggerSchemaECS = httplog.Schema{
 	ResponseDuration: "event.duration",
 }
 
-func (s *Server) setupLogger() {
-	s.logger.Info("HTTP server setup request logger")
-
+func httpLogMiddleware(l *slog.Logger) func(http.Handler) http.Handler {
 	options := &httplog.Options{
-		Schema:        loggerSchemaECS,
+		Schema:        httpLogSchemaECS,
 		RecoverPanics: true,
 		Skip: func(req *http.Request, respStatus int) bool {
 			return req.URL.String() == "/favicon.ico"
@@ -69,9 +85,12 @@ func (s *Server) setupLogger() {
 		// 	return nil
 		// },
 	}
-	s.router.Use(httplog.RequestLogger(s.logger.Slog(), options))
 
-	logRequestID := func(next http.Handler) http.Handler {
+	return httplog.RequestLogger(l, options)
+}
+
+func httpLogRequestIDMiddleware() func(http.Handler) http.Handler {
+	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			ctx := r.Context()
 
@@ -82,5 +101,4 @@ func (s *Server) setupLogger() {
 			next.ServeHTTP(w, r.WithContext(ctx))
 		})
 	}
-	s.router.Use(logRequestID)
 }

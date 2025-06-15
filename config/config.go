@@ -2,20 +2,15 @@ package config
 
 import (
 	"fmt"
-	"goapp/internal/app/server"
 	"goapp/pkg/logger"
 
 	"github.com/spf13/viper"
 )
 
 type Config struct {
-	App    AppConfig
-	Server server.Config
+	Mode   string
 	Logger logger.Config
-}
-
-type AppConfig struct {
-	Mode string
+	Rest   Rest
 }
 
 func New(filename string) (*Config, error) {

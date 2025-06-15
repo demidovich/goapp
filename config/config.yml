@@ -2,7 +2,7 @@
 app:
   Mode: development
 
-server:
+rest:
   Listen: :7100
   MaxBodySize: 2M
   GzipLevel: 5
