@@ -3,14 +3,16 @@ package config
 import (
 	"fmt"
 	"goapp/pkg/logger"
+	"goapp/pkg/postgres"
 
 	"github.com/spf13/viper"
 )
 
 type Config struct {
-	Mode   string
-	Logger logger.Config
-	Rest   Rest
+	Mode     string
+	Logger   logger.Config
+	Postgres postgres.Config
+	Rest     Rest
 }
 
 func New(filename string) (*Config, error) {

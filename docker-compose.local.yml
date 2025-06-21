@@ -2,6 +2,7 @@ version: "3.8"
 
 networks:
   goapp-network:
+    driver: bridge
 
 services:
   postgres:
@@ -20,6 +21,8 @@ services:
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - ./docker/var/postgres:/var/lib/postgresql/data/pgdata:rw
+    ports:
+      - "15432:5432"
     networks:
       - goapp-network
     restart: always

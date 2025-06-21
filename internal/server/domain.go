@@ -3,7 +3,7 @@ package server
 import "goapp/internal/domain/health"
 
 func (s *Server) initDomain() {
-	s.logger.Info("REST server domain init")
+	s.logger.Info("Application domain init")
 
 	s.initHealth()
 }

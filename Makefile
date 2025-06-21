@@ -45,6 +45,20 @@ test: ## Test
 logs: ## Logs
 	docker-compose logs --follow
 
+# Postgresql
+# ============================================================================
+
+psql: ## Psql client
+	docker exec --interactive --tty goapp-postgres psql -d goapp_db
+
+test-db: ## Create or recreate empty database for e2e testing (dbname=test_db)
+	@echo "drop database test_db\n"
+	docker exec goapp-postgres psql -c "drop database if exists test_db"
+	@echo "\ncreate database test_db\n"
+	docker exec goapp-postgres psql -c "create database test_db"
+	@echo ""
+	go run ./cmd/cli/main.go migrate --dbname test_db
+
 # Docker shell
 # ============================================================================
 

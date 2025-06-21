@@ -21,9 +21,12 @@ logger:
 
 postgres:
   Host: localhost
-  Port: 5432
+  Port: 15432
+  Dbname: goapp_db
   User: postgres
   Password: postgres
-  Dbname: goapp_db
-  Sslmode: false
-  Driver: pgx
+  SslMode: false
+  MaxOpenConns: 5
+  MaxIdleConns: 5
+  ConnMaxLifetime: 300
+
