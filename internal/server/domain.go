@@ -9,6 +9,6 @@ func (s *Server) initDomain() {
 }
 
 func (s *Server) initHealth() {
-	usecase := health.NewUsecase()
+	usecase := health.NewUsecase(s.db)
 	s.health = health.NewHandler(usecase, s.logger)
 }

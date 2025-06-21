@@ -21,7 +21,7 @@ func NewHandler(uc *Usecase, log *logger.Logger) *Handler {
 
 func (h *Handler) Handle(w http.ResponseWriter, r *http.Request) {
 	log := request.Logger(h.log, r)
-	data, err := h.usecase.Health(log)
+	data, err := h.usecase.Health(r.Context(), log)
 
 	respond.ItemOrFail(w, data, err, log)
 }
