@@ -67,3 +67,13 @@ func (s *Server) Run() {
 		panic(err)
 	}
 }
+
+// Используется в e2e тестах
+func (s *Server) Router() *chi.Mux {
+	return s.router
+}
+
+// Используется в e2e тестах
+func (s *Server) DB() *sqlx.DB {
+	return s.db
+}

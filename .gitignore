@@ -26,5 +26,8 @@ nbproject
 # Test binary, built with `go test -c`
 *.test
 
+# Test e2e 
+e2e/.sequence
+
 # Modules
 vendor
