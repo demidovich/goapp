@@ -1,5 +1,18 @@
 # Go Application Boilerplate
 
+### Запуск
+
+Docker
+```shell
+make up
+```
+
+Локальный Go
+```shell
+make up-local
+go run ./cmd/rest/main.go
+```
+
 ### Логирование
 
 Используется `log/slog`. Параметры логгера:

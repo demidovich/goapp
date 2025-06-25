@@ -25,7 +25,7 @@ func InitMakeMigration(root *cobra.Command, cfg *config.Config) {
 				if value == "" || re.MatchString(value) {
 					return nil
 				} else {
-					return errors.New("the value must satisfy a regular expression \"[a-z_]{1}[a-z0-9_]{0,61}\".")
+					return errors.New("the value must satisfy a regular expression \"[a-z_]{1}[a-z0-9_]{0,61}\"")
 				}
 			}
 
@@ -53,7 +53,7 @@ func InitMigrate(root *cobra.Command, cfg *config.Config) {
 				return err
 			}
 
-			fmt.Printf("\nRun migrate on database %s...\n\n", cfg.Postgres.Dbname)
+			fmt.Printf("\nMigrate database %s...\n", cfg.Postgres.Dbname)
 
 			mg := newMigrator(cfg.Postgres)
 			if err := mg.Up(); err == nil {
@@ -142,7 +142,7 @@ func setPostgresDbnameFlag(cmd *cobra.Command, cfg *config.Config) error {
 
 	re := regexp.MustCompile(`^[a-z_]{1}[a-z0-9_]{0,61}$`)
 	if !re.MatchString(value) {
-		return errors.New("the dbname must satisfy a regular expression \"^[a-z_]{1}[a-z0-9_]{0,61}$\".")
+		return errors.New("the dbname must satisfy a regular expression \"^[a-z_]{1}[a-z0-9_]{0,61}$\"")
 	}
 
 	cfg.Postgres.Dbname = value

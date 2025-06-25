@@ -15,11 +15,11 @@ export HOST_GID ?= $(shell id -g)
 IMAGES := $(shell docker images -q "goapp-*")
 CONTAINERS := $(shell docker ps -aq --filter name=goapp-)
 
-up: ## Up docker application
+up: ## Up application
 	mkdir -p docker/var/postgres
 	docker-compose -f docker-compose.yml up -d --remove-orphans
 
-up-local: ## Up local application
+up-local: ## Up application, local Go
 	mkdir -p docker/var/postgres
 	docker-compose -f docker-compose.local.yml up -d --remove-orphans
 
@@ -42,6 +42,9 @@ endif
 test: ## Test
 	docker exec goapp-app go test -v ./...
 
+test-e2e: ## e2e test
+	docker exec goapp-app go test -v ./e2e/...
+
 logs: ## Logs
 	docker-compose logs --follow
 
@@ -51,7 +54,17 @@ logs: ## Logs
 psql: ## Psql client
 	docker exec --interactive --tty goapp-postgres psql -d goapp_db
 
-test-db: ## Create or recreate empty database for e2e testing (dbname=test_db)
+test-db: ## Init database for e2e testing (dbname=test_db)
+	@echo "\nInitialization database for e2e testing. Go docker\n"
+	@echo "drop database test_db\n"
+	docker exec goapp-postgres psql -c "drop database if exists test_db"
+	@echo "\ncreate database test_db\n"
+	docker exec goapp-postgres psql -c "create database test_db"
+	@echo ""
+	docker exec goapp-app go run ./cmd/cli/main.go migrate --dbname test_db
+
+test-db-local: ## Init database for e2e testing (dbname=test_db), local Go
+	@echo "\nInitialization database for e2e testing. Go local\n"
 	@echo "drop database test_db\n"
 	docker exec goapp-postgres psql -c "drop database if exists test_db"
 	@echo "\ncreate database test_db\n"

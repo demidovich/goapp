@@ -24,5 +24,5 @@ EXPOSE 7100
 ENTRYPOINT CompileDaemon \
     --exclude-dir=.git \
     --exclude-dir=docker \
-    --build="go build -o /goapp-http ./cmd/rest/main.go" \
-    --command=/goapp-http
+    --build="go build -o /goapp-rest ./cmd/rest/main.go" \
+    --command=/goapp-rest

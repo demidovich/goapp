@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"goapp/pkg/logger"
 	"goapp/pkg/postgres"
+	"strings"
 
 	"github.com/spf13/viper"
 )
@@ -18,8 +19,10 @@ type Config struct {
 func New(filename string) (*Config, error) {
 	v := viper.New()
 	v.SetConfigFile(filename)
+	v.SetConfigType("yaml")
 	v.AddConfigPath(".")
 	v.AutomaticEnv()
+	v.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 
 	if err := v.ReadInConfig(); err != nil {
 		return nil, err
