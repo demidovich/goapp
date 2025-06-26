@@ -18,17 +18,17 @@ type Response struct {
 	} `json:"details"`
 }
 
-type Usecase struct {
+type Usecases struct {
 	db *sqlx.DB
 }
 
-func NewUsecase(db *sqlx.DB) *Usecase {
-	return &Usecase{
+func NewUsecases(db *sqlx.DB) *Usecases {
+	return &Usecases{
 		db: db,
 	}
 }
 
-func (u *Usecase) Health(ctx context.Context, log *logger.Logger) (Response, error) {
+func (u *Usecases) Check(ctx context.Context, log *logger.Logger) (Response, error) {
 	r := Response{}
 	r.Status = "UP"
 	r.Details.Database.Status = "UP"
@@ -38,7 +38,7 @@ func (u *Usecase) Health(ctx context.Context, log *logger.Logger) (Response, err
 	return r, nil
 }
 
-func (u *Usecase) checkDatabase(ctx context.Context, response *Response) {
+func (u *Usecases) checkDatabase(ctx context.Context, response *Response) {
 	timeoutCtx, cancel := context.WithTimeout(ctx, 5*time.Second)
 	defer cancel()
 

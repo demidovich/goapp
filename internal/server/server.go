@@ -3,6 +3,7 @@ package server
 import (
 	"goapp/config"
 	"goapp/internal/domain/health"
+	"goapp/internal/domain/profile"
 	"goapp/internal/utility/rest/respond"
 	"goapp/pkg/logger"
 	"goapp/pkg/postgres"
@@ -13,13 +14,14 @@ import (
 )
 
 type Server struct {
-	Version    string
-	config     *config.Config
-	logger     *logger.Logger
-	router     *chi.Mux
-	httpServer *http.Server
-	db         *sqlx.DB
-	health     *health.Handler
+	Version         string
+	config          *config.Config
+	logger          *logger.Logger
+	router          *chi.Mux
+	httpServer      *http.Server
+	db              *sqlx.DB
+	healthUsecases  *health.Usecases
+	profileUsecases *profile.Usecases
 }
 
 func New(cfg *config.Config, log *logger.Logger) *Server {
@@ -37,8 +39,9 @@ func (s *Server) Init() {
 	respond.SetErrorStackEnabled(s.config.Rest.ResponseStackEnabled)
 
 	s.initDB()
+	s.initGlobalMiddleware()
 	s.initDomain()
-	s.initRoutes()
+	s.initHandlers()
 }
 
 func (s *Server) initDB() {
@@ -76,4 +79,9 @@ func (s *Server) Router() *chi.Mux {
 // Используется в e2e тестах
 func (s *Server) DB() *sqlx.DB {
 	return s.db
+}
+
+// Используется в тестах
+func (s *Server) ProfileUsecases() *profile.Usecases {
+	return s.profileUsecases
 }

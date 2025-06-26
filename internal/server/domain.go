@@ -1,14 +1,13 @@
 package server
 
-import "goapp/internal/domain/health"
+import (
+	"goapp/internal/domain/health"
+	"goapp/internal/domain/profile"
+)
 
 func (s *Server) initDomain() {
 	s.logger.Info("Application domain init")
 
-	s.initHealth()
-}
-
-func (s *Server) initHealth() {
-	usecase := health.NewUsecase(s.db)
-	s.health = health.NewHandler(usecase, s.logger)
+	s.healthUsecases = health.NewUsecases(s.db)
+	s.profileUsecases = profile.NewUsecases(s.db)
 }

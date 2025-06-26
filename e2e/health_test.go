@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestHealth(t *testing.T) {
+func Test_Health(t *testing.T) {
 	body := `{
 		"status": "UP",
 		"details": {

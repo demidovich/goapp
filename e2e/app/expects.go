@@ -1,6 +1,8 @@
 package app
 
-import "testing"
+import (
+	"testing"
+)
 
 func ExpectDatabaseHas(t *testing.T, table string, fields map[string]any) {
 	t.Helper()

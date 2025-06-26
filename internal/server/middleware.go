@@ -5,25 +5,20 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/httplog/v3"
 )
 
-func (s *Server) initRoutes() {
-	s.logger.Info("REST server routes init")
+func (s *Server) initGlobalMiddleware() {
+	s.logger.Info("REST server global middleware init")
 
-	s.router.Group(func(r chi.Router) {
-		r.Use(middleware.Recoverer)
-		r.Use(middleware.RequestID)
-		r.Use(middleware.RealIP)
-		r.Use(httpLogMiddleware(s.logger.Slog()))
-		r.Use(httpLogRequestIDMiddleware())
-		r.Use(middleware.Timeout(s.config.Rest.ReadTimeout * time.Second))
-
-		// router.Get("/")
-		r.Get("/health", s.health.Handle)
-	})
+	r := s.router
+	r.Use(middleware.Recoverer)
+	r.Use(middleware.RequestID)
+	r.Use(middleware.RealIP)
+	r.Use(httpLogMiddleware(s.logger.Slog()))
+	r.Use(httpLogRequestIDMiddleware())
+	r.Use(middleware.Timeout(s.config.Rest.ReadTimeout * time.Second))
 }
 
 // var httpLogSchemaECS = httplog.Schema{
