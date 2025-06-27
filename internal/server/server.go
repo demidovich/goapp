@@ -4,6 +4,7 @@ import (
 	"goapp/config"
 	"goapp/internal/domain/health"
 	"goapp/internal/domain/profile"
+	"goapp/internal/domain/profile2"
 	"goapp/internal/utility/rest/respond"
 	"goapp/pkg/logger"
 	"goapp/pkg/postgres"
@@ -14,14 +15,15 @@ import (
 )
 
 type Server struct {
-	Version         string
-	config          *config.Config
-	logger          *logger.Logger
-	router          *chi.Mux
-	httpServer      *http.Server
-	db              *sqlx.DB
-	healthUsecases  *health.Usecases
-	profileUsecases *profile.Usecases
+	Version          string
+	config           *config.Config
+	logger           *logger.Logger
+	router           *chi.Mux
+	httpServer       *http.Server
+	db               *sqlx.DB
+	healthUsecases   *health.Usecases
+	profileUsecases  *profile.Usecases
+	profile2Usecases *profile2.Usecases
 }
 
 func New(cfg *config.Config, log *logger.Logger) *Server {
