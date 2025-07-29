@@ -44,6 +44,7 @@ func (s *Server) Init() {
 	s.initGlobalMiddleware()
 	s.initDomain()
 	s.initHandlers()
+	s.initSwagger()
 }
 
 func (s *Server) initDB() {

@@ -26,11 +26,11 @@ Encoding:
 
 Вывод JSON
 
-![logger json](/docs/assets/logger_json.png)
+![logger json](/docs/readme/logger_json.png)
 
 Вывод Pretty
 
-![logger pretty](/docs/assets/logger_pretty.png)
+![logger pretty](/docs/readme/logger_pretty.png)
 
 ### Миграции
 
